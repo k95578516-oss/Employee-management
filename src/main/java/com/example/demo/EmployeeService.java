@@ -2,6 +2,10 @@ package com.example.demo;
 
 import com.example.demo.Exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -95,4 +99,11 @@ public class EmployeeService {
         List<Employee> employees = employeeRepository.findByDepartmentId(deptId);
         return employees.stream().map(this::convertToDTO).toList();
     }
+
+    public Page<EmployeeDTO> getEmployee(int page, int size, String sortBy){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        Page<Employee> employeepage = employeeRepository.findAll(pageable);
+        return employeepage.map(this::convertToDTO);
+    }
+
 }

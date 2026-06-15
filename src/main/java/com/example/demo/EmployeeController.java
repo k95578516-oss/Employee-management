@@ -3,6 +3,7 @@ package com.example.demo;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +62,9 @@ public class EmployeeController {
     @GetMapping("/department/{id}")
     public ResponseEntity<List<EmployeeDTO>> getByDepartment(@PathVariable int id){
         return ResponseEntity.ok(employeeService.getEmployeeByDepartment(id));
+    }
+    @GetMapping("/page")
+    public ResponseEntity<Page<EmployeeDTO>> getEmployees(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+        return ResponseEntity.ok(employeeService.getEmployee(page, size, sortBy));
     }
 }
